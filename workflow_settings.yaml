@@ -1,0 +1,5 @@
+defaultProject: digitab-480909
+defaultLocation: "europe-west9"  # <--- AJOUTEZ CETTE LIGNE (Mettez 'EU' ou votre région exacte)
+defaultDataset: dataform
+defaultAssertionDataset: dataform_assertions
+dataformCoreVersion: 3.0.35
