@@ -28,6 +28,9 @@ ga4-dataform-pipeline/
 │   └── marts/          # Tables finales prêtes pour la BI (ex: dim_users, fact_sessions)
 └── workflow_settings.yaml # Configuration de l'environnement (Région, Schémas)
 
+
+<img width="1062" height="83" alt="image" src="https://github.com/user-attachments/assets/eee7c2ec-560f-4d6d-86f8-da8324a8f6d8" />
+
 ```
 
 ---
