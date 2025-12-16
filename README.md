@@ -1,2 +1,2 @@
 # digitab-ga4-dataform
-data form gcp de la data ga4 de www.digitab.fr
+Terraform de la data ga4 de www.digitab.fr avec GCP Dataform et SQL
