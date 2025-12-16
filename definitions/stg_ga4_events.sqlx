@@ -1,0 +1,36 @@
+config {
+  type: "view",
+  schema: "dataform_staging",
+  description: "Vue aplatie GA4 : inclut les sources Utilisateur (First User) et Session (Event params)"
+}
+
+SELECT
+  -- CLÉ UNIQUE
+  CONCAT(user_pseudo_id, '-', (SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id')) AS unique_session_id,
+  
+  -- INFOS DE BASE
+  event_date,
+  event_timestamp,
+  event_name,
+  user_pseudo_id,
+
+  -- 1. ACQUISITION UTILISATEUR (Ce que vous avez demandé)
+  -- Correspond à "Premier support de l'utilisateur" / "Première source de l'utilisateur"
+  traffic_source.medium AS first_user_medium,
+  traffic_source.source AS first_user_source,
+  traffic_source.name AS first_user_campaign,
+
+  -- 2. ACQUISITION SESSION/ÉVÉNEMENT (Via les paramètres)
+  -- Correspond à la source de la visite actuelle
+  (SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS session_id,
+  (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location') AS page_location,
+  
+  -- On renomme ceux-ci pour bien les distinguer
+  (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'source') AS event_source,
+  (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'medium') AS event_medium,
+  (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'campaign') AS event_campaign
+
+FROM
+  ${ref("events_*")}
+WHERE
+  _TABLE_SUFFIX >= '20240101'
